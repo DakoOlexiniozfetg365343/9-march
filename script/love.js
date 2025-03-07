@@ -38,7 +38,9 @@ function init() {
   ctx.fillRect(0, 0, width, height);
 
   function drawText() {
-    const fontSize = Math.min(40, width / 10); // Зменшено розмір шрифту для мобільних
+    const fontSize = mobile
+      ? Math.min(30, width / 15)
+      : Math.min(60, width / 10); // Менший шрифт для мобільних
     ctx.font = `${fontSize}px Arial`;
     ctx.fillStyle = "lightblue";
     ctx.textAlign = "center";
