@@ -15,9 +15,10 @@ window.requestAnimationFrame =
     };
   })();
 
-window.isDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
-  (navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
-);
+window.isDevice =
+  /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
+    (navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
+  );
 
 var loaded = false;
 
@@ -26,7 +27,7 @@ function init() {
   loaded = true;
 
   var mobile = window.isDevice;
-  var koef = mobile ? 0.5 : 1;
+  var koef = mobile ? 0.3 : 1; // Зменшуємо коефіцієнт для мобільних пристроїв
   var canvas = document.getElementById("heart");
   var ctx = canvas.getContext("2d");
   var width = (canvas.width = koef * innerWidth);
@@ -37,14 +38,14 @@ function init() {
   ctx.fillRect(0, 0, width, height);
 
   function drawText() {
-    const fontSize = Math.min(60, width / 10);
+    const fontSize = Math.min(40, width / 10); // Зменшено розмір шрифту для мобільних
     ctx.font = `${fontSize}px Arial`;
     ctx.fillStyle = "lightblue";
     ctx.textAlign = "center";
     ctx.fillText(
       "З Восьмим березням❤️",
       width / 2,
-      height / 2 + (mobile ? 100 : 200)
+      height / 2 + (mobile ? 50 : 100) // Меньше зміщення для мобільних
     );
   }
 
@@ -71,16 +72,22 @@ function init() {
     ctx.fillRect(0, 0, width, height);
   });
 
-  var traceCount = mobile ? 10 : 50;
+  var traceCount = mobile ? 5 : 50; // Зменшена кількість точок для мобільних пристроїв
   var pointsOrigin = [];
-  var dr = mobile ? 0.5 : 0.1;
+  var dr = mobile ? 0.7 : 0.1; // Збільшення кроку для мобільних пристроїв, щоб зменшити кількість точок
 
   for (var i = 0; i < Math.PI * 2; i += dr)
-    pointsOrigin.push(scaleAndTranslate(heartPosition(i), 310 * koef, 19 * koef, 0, 0));
+    pointsOrigin.push(
+      scaleAndTranslate(heartPosition(i), 310 * koef, 19 * koef, 0, 0)
+    );
   for (var i = 0; i < Math.PI * 2; i += dr)
-    pointsOrigin.push(scaleAndTranslate(heartPosition(i), 250 * koef, 15 * koef, 0, 0));
+    pointsOrigin.push(
+      scaleAndTranslate(heartPosition(i), 250 * koef, 15 * koef, 0, 0)
+    );
   for (var i = 0; i < Math.PI * 2; i += dr)
-    pointsOrigin.push(scaleAndTranslate(heartPosition(i), 190 * koef, 11 * koef, 0, 0));
+    pointsOrigin.push(
+      scaleAndTranslate(heartPosition(i), 190 * koef, 11 * koef, 0, 0)
+    );
 
   var heartPointsCount = pointsOrigin.length;
   var targetPoints = [];
@@ -122,7 +129,7 @@ function init() {
     ctx.fillStyle = "rgba(0,0,0,.1)";
     ctx.fillRect(0, 0, width, height);
 
-    for (var i = e.length; i--;) {
+    for (var i = e.length; i--; ) {
       var u = e[i];
       var q = targetPoints[u.q];
       var dx = u.trace[0].x - q[0];
@@ -172,7 +179,9 @@ function continueMusic() {
   if (music) {
     if (isMusicPlaying) {
       music.currentTime = parseFloat(musicCurrentTime);
-      music.play().catch((error) => console.log("Music playback failed", error));
+      music
+        .play()
+        .catch((error) => console.log("Music playback failed", error));
     }
   }
 
