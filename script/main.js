@@ -9,7 +9,7 @@ document.addEventListener('keydown', function(e) {
 });
 
 const messages = [
-"Нажимай де хочеш",  
+"Нажимай де хочеш щоб читать",  
 "Це ти ❤️",  
 "Я хочу тобі шось сказати",  
 "Спробуй нажати",  
