@@ -38,28 +38,29 @@ function init() {
   ctx.fillRect(0, 0, width, height);
 
   function drawText() {
+    const dpr = window.devicePixelRatio || 1; // Отримуємо коефіцієнт пікселів
     const fontSize = mobile
       ? Math.min(50, width / 10)
-      : Math.min(60, width / 10); // Великий шрифт для мобільних
-    const dpr = window.devicePixelRatio || 1; // Отримуємо коефіцієнт пікселів
+      : Math.min(60, width / 10); // Шрифт для мобільних
 
-    // Масштабуємо контекст канвасу за допомогою devicePixelRatio для кращої чіткості
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    // Масштабуємо канвас для високої роздільної здатності
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
 
-    // Використовуємо жирний шрифт для чіткості
-    ctx.font = `${fontSize * dpr}px Arial`;
+    ctx.scale(dpr, dpr); // Масштабуємо контекст для чіткості
+
+    ctx.font = `${fontSize}px Arial`;
     ctx.fillStyle = "lightblue";
     ctx.textAlign = "center";
 
-    // Виводимо текст в центрі канвасу
+    // Малюємо текст в центрі канвасу
     ctx.fillText(
       "З Восьмим березням❤️",
       width / 2,
       height / 2 + (mobile ? 50 : 100)
     );
-
-    // Повертаємо стандартні трансформації для інших малюнків на канвасі
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
   }
 
   function heartPosition(rad) {
