@@ -22,45 +22,29 @@ window.isDevice =
 
 var loaded = false;
 
-function init() {
-  if (loaded) return;
-  loaded = true;
-
-  var mobile = window.isDevice;
-  var koef = mobile ? 0.3 : 1; // Зменшуємо коефіцієнт для мобільних пристроїв
-  var canvas = document.getElementById("heart");
-  var ctx = canvas.getContext("2d");
-  var width = (canvas.width = koef * innerWidth);
-  var height = (canvas.height = koef * innerHeight);
-  var rand = Math.random;
-
-  ctx.fillStyle = "rgba(0,0,0,1)";
-  ctx.fillRect(0, 0, width, height);
-
-  function drawText() {
-    const dpr = window.devicePixelRatio || 1; // Отримуємо коефіцієнт пікселів
+function drawText() {
     const fontSize = mobile
       ? Math.min(50, width / 10)
-      : Math.min(60, width / 10); // Шрифт для мобільних
+      : Math.min(60, width / 10); // Великий шрифт для мобільних
+    const dpr = window.devicePixelRatio || 1; // Отримуємо коефіцієнт пікселів
 
-    // Масштабуємо канвас для високої роздільної здатності
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
+    // Масштабуємо контекст канвасу за допомогою devicePixelRatio для кращої чіткості
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    ctx.scale(dpr, dpr); // Масштабуємо контекст для чіткості
-
-    ctx.font = `${fontSize}px Arial`;
+    // Використовуємо жирний шрифт для чіткості
+    ctx.font = `${fontSize * dpr}px Arial`;
     ctx.fillStyle = "lightblue";
     ctx.textAlign = "center";
 
-    // Малюємо текст в центрі канвасу
+    // Виводимо текст в центрі канвасу
     ctx.fillText(
       "З Восьмим березням❤️",
       width / 2,
       height / 2 + (mobile ? 50 : 100)
     );
+
+    // Повертаємо стандартні трансформації для інших малюнків на канвасі
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
   }
 
   function heartPosition(rad) {
