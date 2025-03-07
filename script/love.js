@@ -39,16 +39,27 @@ function init() {
 
   function drawText() {
     const fontSize = mobile
-      ? Math.min(30, width / 15)
-      : Math.min(60, width / 10); // Менший шрифт для мобільних
-    ctx.font = `${fontSize}px Arial`;
+      ? Math.min(50, width / 10)
+      : Math.min(60, width / 10); // Великий шрифт для мобільних
+    const dpr = window.devicePixelRatio || 1; // Отримуємо коефіцієнт пікселів
+
+    // Масштабуємо контекст канвасу за допомогою devicePixelRatio для кращої чіткості
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    // Використовуємо жирний шрифт для чіткості
+    ctx.font = `${fontSize * dpr}px Arial`;
     ctx.fillStyle = "lightblue";
     ctx.textAlign = "center";
+
+    // Виводимо текст в центрі канвасу
     ctx.fillText(
       "З Восьмим березням❤️",
       width / 2,
-      height / 2 + (mobile ? 50 : 100) // Меньше зміщення для мобільних
+      height / 2 + (mobile ? 50 : 100)
     );
+
+    // Повертаємо стандартні трансформації для інших малюнків на канвасі
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
   }
 
   function heartPosition(rad) {
